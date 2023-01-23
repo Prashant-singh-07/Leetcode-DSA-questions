@@ -21,7 +21,7 @@ public:
             dp[i]=ans;
             m.clear();
         }
-        for(int i=0;i<n;i++) cout<<dp[i]<<" ";
+       // for(int i=0;i<n;i++) cout<<dp[i]<<" ";
         return dp[n-1];
     }
 };
