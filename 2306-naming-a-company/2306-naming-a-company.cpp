@@ -1,4 +1,5 @@
 class Solution {
+    //cheated for daily leetcode challenges
 public:
     long long distinctNames(vector<string>& ideas) {
         unordered_map<string,bool> hm;
