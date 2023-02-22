@@ -15,7 +15,6 @@ class Solution {
             }
         }
         if(count>days) return false;
-        //if(i<weights.size()) return false;
         return true;
     }
 public:
