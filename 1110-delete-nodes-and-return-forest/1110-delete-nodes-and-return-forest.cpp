@@ -13,14 +13,15 @@ class Solution {
 public:
     vector<TreeNode*> ans;
     unordered_map<int,int> m;
-    void fun(TreeNode* root){
-        if(!root) return ;
-        if(m.find(root->val)!=m.end()) root->val=-1;
-        fun(root->left);
-        fun(root->right);
-    }
+    // void fun(TreeNode* root){
+    //     if(!root) return ;
+    //     if(m.find(root->val)!=m.end()) root->val=-1;
+    //     fun(root->left);
+    //     fun(root->right);
+    // }
     void forest(TreeNode* root){
         if(!root) return ;
+         if(m.find(root->val)!=m.end()) root->val=-1;
         forest(root->left);
         forest(root->right);
         if(root->val==-1){
@@ -36,7 +37,7 @@ public:
         for(int i=0;i<to_delete.size();i++){
             m[to_delete[i]]++;
         }
-        fun(root);
+        //fun(root);
         forest(root);
         if(root->val!=-1) ans.push_back(root);
         return ans;
