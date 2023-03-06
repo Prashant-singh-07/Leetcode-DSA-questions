@@ -7,6 +7,8 @@ public:
             if(arr[i]-start > 1){
                 diff = arr[i]-start-1;
                 if(diff+count>=k){
+                    diff = k-count;
+                    return start+diff;
                     break;
                 }
                 else count+=diff;
