@@ -11,35 +11,35 @@
  */
 class Solution {
 public:
-    // bool ans=true;
-    // int fun(TreeNode* root){
-    //     if(!root) return 0;
-    //     int left = fun(root->left);
-    //     int right = fun(root->right);
-    //     if(left<right) ans=false;
-    //     return 1+left+right;
-    // }
     bool isCompleteTree(TreeNode* root) {
-       queue<TreeNode*> q;
+        queue<TreeNode*> q;
         if(!root) return true;
-        q.push(root);
-        TreeNode* temp;
+        int flag=0;
         int n;
-        bool flag=true;
+        TreeNode* temp;
+        q.push(root);
         while(!q.empty()){
             n = q.size();
             while(n>0){
-                temp = q.front();
+                temp=q.front();
                 q.pop();
-                if(temp->left==NULL) flag=false;
-                else{
-                    if(!flag) return false;
+                if(!temp->left && temp->right) return false;
+                else if(temp->left && !temp->right){
+                    if(flag==0){
+                    flag=1;
                     q.push(temp->left);
+                    }
+                    else{
+                        return false;
+                    }
                 }
-                if(temp->right==NULL) flag=NULL;
-                else{
-                    if(!flag) return false;
+                else if(temp->left && temp->right){
+                    if(flag==1) return false;
+                    q.push(temp->left);
                     q.push(temp->right);
+                }
+                else if(!temp->left && !temp->right){
+                    flag=1;
                 }
                 n--;
             }
