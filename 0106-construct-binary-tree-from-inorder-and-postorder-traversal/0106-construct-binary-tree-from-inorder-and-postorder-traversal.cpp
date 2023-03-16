@@ -12,32 +12,24 @@
 class Solution {
 public:
     unordered_map<int,int> m;
-    TreeNode* fun(int start,int end,vector<int>& postorder){
-        if(start>end){
-            return NULL;
-        }
-        int k;
-        for(int i=postorder.size()-1;i>=0;i--) if(m[postorder[i]]>=start && m[postorder[i]]<=end){
-            k=i;
-            break;
-        }
-        TreeNode* ans = new TreeNode(postorder[k]);
-        if(start==end){
-            return ans;
-        }
-        ans->left = fun(start,m[postorder[k]]-1,postorder);
-        ans->right = fun(m[postorder[k]]+1,end,postorder);
-        return ans;
+    TreeNode* fun(vector<int>& postorder,int start,int end,int is,int ie){
+        if(start>end) return NULL;
+        TreeNode* root = new TreeNode(postorder[end]);
+        int ind = m[postorder[end]];
+        int r = ie-ind;
+        int l = ind-is;
+        if(r>0)
+        root->right = fun(postorder,end-r,end-1,ind+1,ie);
+        root->left = fun(postorder,start,end-r-1,is,ind-1);
+            
+       return root;
     }
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-
-         int n = inorder.size();
-        for(int i=0;i<n;i++) m[inorder[i]]=i;
-       
-        TreeNode* root = new TreeNode(postorder[n-1]);
-        root->left = fun(0,m[postorder[n-1]]-1,postorder);
-         root->right = fun(m[postorder[n-1]]+1,n-1,postorder);
-         return root;
+        for(int i=0;i<inorder.size();i++){
+            m[inorder[i]]=i;
+        }
+        int n = postorder.size();
+        return fun(postorder,0,n-1,0,n-1);
         
     }
 };
