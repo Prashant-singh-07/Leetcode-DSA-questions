@@ -1,0 +1,2 @@
+# Write your MySQL query statement below
+select u.user_id as buyer_id,u.join_date as join_date,(select count(*) from Orders as o where o.buyer_id = u.user_id and year(order_date) = '2019') as orders_in_2019 from Users as u;
