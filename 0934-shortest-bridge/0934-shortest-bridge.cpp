@@ -1,65 +1,49 @@
 class Solution {
 public:
-// BFS method 
-    void DFS(vector<vector<int>>& grid , int i , int j ,queue<pair<int,int>>&pending ,vector<vector<bool>>& visited )
-    {
-        if(i<0 ||i>=grid.size() ||j<0 ||j>=grid[0].size() ||grid[i][j]==0|| visited[i][j]== true )
-        {
-            return ;
+    vector<vector<int>> vis;
+    vector<vector<int>> kinara;
+    vector<int> dir = {1,0,-1,0,1};
+    int ans=INT_MAX;
+    void fun(vector<vector<int>>& grid,int row,int col,int flag){
+        
+        if(vis[row][col]!=-1) return ;
+        int n = grid.size();
+        int sum;
+        vis[row][col]++;
+        int count=0;
+        for(int i=0;i<4;i++){
+            if(row+dir[i]>=0 && row+dir[i]<n && col+dir[i+1]>=0 && col+dir[i+1]<n && grid[row+dir[i]][col+dir[i+1]]==1 ){
+                count++;
+                fun(grid,row+dir[i],col+dir[i+1],flag);
+            }
         }
-        pending.push({0,i*(grid[0].size())+j});
-        visited[i][j]=true ;
-        DFS(grid, i+1 , j , pending ,visited);
-        DFS(grid, i-1 , j , pending , visited);
-        DFS(grid, i , j+1 , pending , visited);
-        DFS(grid, i , j-1 , pending ,visited);
+        if(count<4){
+            if(flag==0){
+            kinara.push_back({row,col});
+            }
+            else{
+                for(int i=0;i<kinara.size();i++){
+                    sum = abs(row-kinara[i][0]);
+                    sum += abs(col-kinara[i][1]);
+                    ans = min(ans,sum-1);
+                }
+            }
+        }
+        return ;
     }
     int shortestBridge(vector<vector<int>>& grid) {
-        int m = grid.size() ;
-        int n = grid[0].size();
-        vector<vector<bool>> visited(m ,vector<bool>(n,false));
-        queue<pair<int,int>> pending ;
-        bool is = true ;
-        for(int i =0 ;i<m ;i++)
-        {
-            for( int j =0 ;j<n ;j++)
-            {
-                if(grid[i][j]==1)
-                {
-                    DFS(grid, i , j, pending, visited);
-                    is= false;
-                    break ;
+        int n = grid.size();
+        vis = vector<vector<int>>(n,vector<int>(n,-1));
+        //lets go for first round;
+        int flag=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==1 && vis[i][j]==-1){
+                    fun(grid,i,j,flag);
+                    flag++;
                 }
-            }
-            if(is== false)
-            {
-                break ;
             }
         }
-        vector<pair<int,int>> dir= {{-1,0},{0,1},{0,-1},{1,0}};
-        while(!pending.empty())
-        {
-            int dis = pending.front().first ;
-            int i = pending.front().second/n;
-            int j = pending.front().second%n;
-           // cout<<dis<<" "<<i<<" "<<j<<endl;
-            pending.pop();
-            for( int k =0 ;k<dir.size() ;k++)
-            {
-                int nr = i+dir[k].first;
-                int nc = j +dir[k].second;
-                if(nr<0||nc<0||nr>=m||nc>=n||visited[nr][nc]==true)
-                {
-                    continue;
-                }
-                visited[nr][nc]=true ;
-                if(grid[nr][nc]==1)
-                {
-                    return dis ;
-                }
-                pending.push({dis+1 ,nr*n+nc});
-            }
-        }
-        return 0;
+        return ans;
     }
 };
