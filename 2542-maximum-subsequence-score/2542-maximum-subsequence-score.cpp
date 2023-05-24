@@ -25,28 +25,21 @@ public:
             p = low.top();
             low.pop();
             if(m[p.second]>0){
-                //cout<<"ye to phla h"<<"   ";
                 while(!high.empty() && leave[high.top().second]>0) high.pop();
                 if(high.size()==0) break;
                 r = high.top();
                 high.pop();
                 m[r.second]++;
                 sum+=(r.first);
-                j = sum*(p.first);
-                sum-=(nums1[p.second]);
-                m[p.second]--;
-                leave[p.second]++;
             }
             else{
-                cout<<"ye to dusra h"<<"   ";
                 sum+=(nums1[p.second]);
-                j = sum*(p.first);
+            }
+             j = sum*(p.first);
                 sum-=(nums1[p.second]);
                 m[p.second]--;
                 leave[p.second]++;
-            }
             if(j>ans){
-            cout<<j<<"  "<<p.first<<"   high ka size :   "<<high.size()<<endl;
                 ans=j;
             }
         }
