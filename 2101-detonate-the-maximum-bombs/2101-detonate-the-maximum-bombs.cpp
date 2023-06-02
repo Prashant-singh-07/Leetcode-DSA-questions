@@ -20,15 +20,14 @@ public:
         int n = bombs.size();
         vector<vector<int>> v(n);
         for(int i=0;i<bombs.size();i++){
-            long long x1,y1,r1;
-            x1=bombs[i][0];
-            y1 = bombs[i][1];
+            long long r1;
+            
             r1 = bombs[i][2];
             for(int j=0;j<bombs.size();j++){
                 if(i!=j){
                     long long x2,y2;
-                    x2=abs(x1-bombs[j][0]);
-                    y2 = abs(y1-bombs[j][1]);
+                    x2=abs(bombs[i][0]-bombs[j][0]);
+                    y2 = abs(bombs[i][1]-bombs[j][1]);
                     if((x2*x2)+(y2*y2)<=(r1*r1)){
                         v[i].push_back(j);
                     }
