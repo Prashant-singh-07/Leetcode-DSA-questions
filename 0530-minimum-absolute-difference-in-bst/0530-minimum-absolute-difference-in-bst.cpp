@@ -10,19 +10,35 @@
  * };
  */
 class Solution {
+    int ans=INT_MAX;
+        vector<int> fun(TreeNode* root){
+            
+            int k = root->val;
+            int j = root->val;
+            int temp;
+            vector<int> lefty;
+            if(root->left){
+                lefty = fun(root->left);
+                temp = abs(lefty[1]-root->val);
+                ans = min(ans,temp);
+                j = min(j,lefty[0]);
+            }
+            if(root->right){
+                lefty = fun(root->right);
+                temp = abs(lefty[0]-root->val);
+                ans = min(ans,temp);
+                k = max(k,lefty[1]);
+            }
+            return {j,k};
+            
+        }
 public:
-    int inorderTraverse(TreeNode* root, int& val, int& min_dif) {
-    if (root->left != NULL)
-        inorderTraverse(root->left, val, min_dif);
-    if (val >= 0) 
-        min_dif = min(min_dif, root->val - val);
-    val = root->val;
-    if (root->right != NULL) 
-        inorderTraverse(root->right, val, min_dif);
-    return min_dif;
-}
-int getMinimumDifference(TreeNode* root) {
-    auto min_dif = INT_MAX, val = -1;
-    return inorderTraverse(root, val, min_dif);
-}
+    int getMinimumDifference(TreeNode* root) {
+        //lets write algorithm for it.
+        //firstly, take max from left and then take min from right, after this we can get our desired result.
+        //What should we return after processing every node?  simply, return max and min from that node
+        
+        vector<int> v = fun(root);
+        return ans;
+    }
 };
