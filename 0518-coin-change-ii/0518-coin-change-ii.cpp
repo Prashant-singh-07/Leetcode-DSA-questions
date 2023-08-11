@@ -14,7 +14,7 @@ class Solution {
 public:
     int change(int amount, vector<int>& coins) {
         vector<vector<int>> dp(amount+1,vector<int>(coins.size(),-1));
-        sort(coins.begin(),coins.end(),greater<int>());
+        //sort(coins.begin(),coins.end(),greater<int>());
         return fun(amount,coins,dp,0);
     }
 };
