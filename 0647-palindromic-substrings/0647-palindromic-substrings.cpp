@@ -1,33 +1,25 @@
 class Solution {
 public:
-   bool check(string s){
-        int l=0;
-       int r=s.size()-1;
-       while(l<r){
-           if(s[l]!=s[r]) return false;
-           l++;
-           r--;
-       }
-        return true;
-    }
-    
     int countSubstrings(string s) {
-        int ans=0;
-        int n = s.size();
-        vector<vector<bool>> dp(n+1,vector<bool>(n+1,false));
+      // for a palindrom substring of more than size 1, we should have first and last character equal, if(there is more than 1 element in first and last then check for string is palindrome or not).
         
-        for(int i=0;i<n;i++){
-            for(int j=0;j<=i;j++){
-                if(i-j==0) dp[i][0]=true,ans++;
-                else if(s[i]==s[j]){
-                    if(i-j==1) dp[i][1]=true,ans++;
-                    else{
-                        if(dp[i-1][i-j-2]) dp[i][i-j]=true,ans++;
-                        else dp[i][i-j]=false;
+        int n = s.size();
+        vector<vector<int>> v(n,vector<int>(n+1));
+       int count=0;
+        for(int i=n-1;i>=0;i--){
+            v[i][1]=true;
+            count++;
+            for(int j=i+1;j<n;j++){
+                if(s[j]==s[i]){
+                    if(j-i<=2){
+                        v[i][j-i+1]=true;
+                        count++;
                     }
+                    else if(v[i+1][j-i-1]) v[i][j-i+1]=true,count++;
                 }
             }
         }
-        return ans;
+        return count;
+        
     }
 };
